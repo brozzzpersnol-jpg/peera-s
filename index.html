@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peera's Soaps & Body Essentials - Premium Luxury</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://pay.google.com/gp/p/js/pay.js" async defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #ffd700;
+            --primary-dark: #0a0a0a;
+            --card-dark: #1a1a1a;
+            --border-dark: #333;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary-dark);
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, rgba(26,26,26,0.95) 0%, rgba(0,0,0,0.95) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.7);
+            backdrop-filter: blur(20px);
+        }
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-links a:hover { color: var(--primary-gold); }
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .cart-icon {
+            font-size: 1.6rem;
+            color: var(--primary-gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .cart-icon:hover {
+            transform: scale(1.2) rotate(10deg);
+            text-shadow: 0 0 20px var(--primary-gold);
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            min-width: 22px;
+            height: 22px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        #googleSigninBtn { 
+            padding: 0.8rem 1.8rem !important;
+            background: linear-gradient(135deg, #4285f4, #34a853) !important;
+            border-radius: 25px !important;
+            font-weight: 600 !important;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,215,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .user-profile:hover {
+            background: rgba(255,215,0,0.1);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.3);
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-gold);
+        }
+        main {
+            margin-top: 100px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero {
+            text-align: center;
+            background: linear-gradient(135deg, var(--card-dark) 0%, #111 100%);
+            padding: 6rem 2rem;
+            border-radius: 30px;
+            margin-bottom: 4rem;
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,215,0,0.05) 50%, transparent 70%);
+            animation: shimmer 4s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) skewX(-25deg); }
+            100% { transform: translateX(300%) skewX(-25deg); }
+        }
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .hero p {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        .user-status {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255,215,0,0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 3rem;
+        }
+        .product-card {
+            background: linear-gradient(145deg, #1e1e1e 0%, #151515 100%);
+            border-radius: 25px;
+            padding: 2.5rem 2rem;
+            border: 1px solid var(--border-dark);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+            transition: left 0.6s;
+        }
+        .product-card:hover::before { left: 100%; }
+        .product-card:hover {
+            transform: translateY(-20px);
+            box-shadow: 0 35px 90px rgba(0,0,0,0.9), 0 0 40px rgba(255,215,0,0.4);
+            border-color: var(--primary-gold);
+        }
+        .product-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 1.8rem;
+            border: 2px solid var(--border-dark);
+            transition: all 0.4s ease;
+        }
+        .product-card:hover .product-image {
+            border-color: var(--primary-gold);
+            box-shadow: 0 20px 50px rgba(255,215,0,0.4);
+            transform: scale(1.02);
+        }
+        .product-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        .product-price {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+        }
+        .add-to-cart {
+            width: 100%;
+            padding: 1.4rem;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #ffed4e 100%);
+            color: #000;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .add-to-cart:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255,215,0,0.6);
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(15px);
+        }
+        .modal-content {
+            background: linear-gradient(145deg, var(--card-dark) 0%, #111 100%);
+            padding: 3rem;
+            border-radius: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.95);
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .modal-close:hover {
+            transform: rotate(90deg) scale(1.2);
+            text-shadow: 0 0 25px var(--primary-gold);
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-dark);
+            opacity: 0.95;
+        }
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+        .payment-btn {
+            padding: 2rem 1.5rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .gpay-btn { 
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(66,133,244,0.4);
+        }
+        .upi-btn { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+        .payment-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .total-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+        .upi-qr-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .upi-qr {
+            width: 280px;
+            height: 280px;
+            border-radius: 25px;
+            border: 4px solid var(--primary-gold);
+            box-shadow: 0 20px 60px rgba(255,215,0,0.3);
+        }
+        .upi-details {
+            background: rgba(42,42,42,0.8);
+            padding: 2.5rem;
+            border-radius: 25px;
+            margin-top: 2rem;
+            border: 1px solid var(--border-dark);
+        }
+        .confirm-btn {
+            width: 100%;
+            padding: 1.8rem;
+            background: linear-gradient(135deg, #00c851 0%, #00b140 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+        .confirm-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,200,81,0.6);
+        }
+        .notification {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #ffed4e 100%);
+            color: #000;
+            padding: 1.5rem 2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 20px 60px rgba(255,215,0,0.6);
+            z-index: 5000;
+            transform: scale(0) rotate(-10deg);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .notification.show {
+            transform: scale(1) rotate(0deg);
+        }
+        @media (max-width: 768px) {
+            .payment-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.8rem; }
+            .products-grid { grid-template-columns: 1fr; gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo" onclick="scrollToTop()">🧼 Peera's Premium Soaps</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Shop</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="user-section">
+                <div id="userProfile" class="user-profile" style="display: none;" onclick="toggleUserMenu()">
+                    <img id="userAvatar" class="user-avatar" src="" alt="User">
+                    <span id="userName"></span>
+                    <i class="fas fa-chevron-down" style="font-size: 0.8rem; opacity: 0.7;"></i>
+                </div>
+                <div id="g_id_signin"></div>
+                <div class="cart-icon" onclick="openCart()" title="Your Google Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="hero" id="home">
+            <h1>🖤 Black Premium Collection</h1>
+            <p>Luxury Soaps & Body Essentials | Google Account Sync | GPay + UPI</p>
+            <div id="userStatus" class="user-status" style="display: none;"></div>
+        </section>
+
+        <section class="products-grid" id="products">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1581229873328-95d6dc6d1a24?w=500&fit=crop" class="product-image" alt="Charcoal Soap">
+                <h3 class="product-title">Black Charcoal Detox Soap</h3>
+                <div class="product-price">₹299</div>
+                <button class="add-to-cart" onclick="addToCart('Black Charcoal Detox Soap (100g)', 299)">
+                    <i class="fas fa-cart-plus"></i> Add to Google Cart
+                </button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1610986582187-62f47e730d97?w=500&fit=crop" class="product-image" alt="Oud Body Wash">
+                <h3 class="product-title">Black Oud Body Wash</h3>
+                <div class="product-price">₹499</div>
+                <button class="add-to-cart" onclick="addToCart('Black Oud Body Wash (250ml)', 499)">
+                    <i class="fas fa-cart-plus"></i> Add to Google Cart
+                </button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?w=500&fit=crop" class="product-image" alt="Obsidian Wash">
+                <h3 class="product-title">Obsidian Face Wash</h3>
+                <div class="product-price">₹399</div>
+                <button class="add-to-cart" onclick="addToCart('Obsidian Face Wash (150ml)', 399)">
+                    <i class="fas fa-cart-plus"></i> Add to Google Cart
+                </button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1625772299848-361b803ffa18?w=500&fit=crop" class="product-image" alt="Velvet Cream">
+                <h3 class="product-title">Midnight Velvet Cream</h3>
+                <div class="product-price">₹249</div>
+                <button class="add-to-cart" onclick="addToCart('Midnight Velvet Hand Cream (50ml)', 249)">
+                    <i class="fas fa-cart-plus"></i> Add to Google Cart
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeCart()">×</div>
+            <h2 style="color: var(--primary-gold); margin-bottom: 2rem; text-align: center;">
+                <i class="fas fa-shopping-cart"></i> Google Account Cart
+            </h2>
+            <div id="cartItems" style="min-height: 200px;"></div>
+            <div class="total-amount" id="cartTotal">Total: ₹0</div>
+            <div class="payment-grid">
+                <button class="payment-btn gpay-btn" onclick="processGPay()">
+                    <i class="fab fa-google-pay" style="font-size: 2.5rem;"></i>
+                    Pay with GPay
+                </button>
+                <button class="payment-btn upi-btn" onclick="showUpiModal()">
+                    <i class="fas fa-mobile-alt" style="font-size: 2.5rem;"></i>
+                    Pay with UPI
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPI Modal -->
+    <div id="upiModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeUpiModal()">×</div>
+            <h2 style="color: var(--primary-gold); text-align: center;">
+                <i class="fas fa-mobile-alt"></i> UPI Payment [+91 9892894639]
+            </h2>
+            <div class="upi-qr-container">
+                <img id="upiQR" class="upi-qr" src="" alt="UPI QR Code">
+            </div>
+            <div class="upi-details">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <span>UPI ID:</span>
+                    <strong style="color: var(--primary-gold);">9892894639@paytm</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <span>Amount:</span>
+                    <strong style="color: var(--primary-gold); font-size: 1.8rem;" id="upiTotal">₹0</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Customer:</span>
+                    <strong id="upiCustomer"></strong>
+                </div>
+            </div>
+            <button class="confirm-btn" onclick="confirmPayment()">
+                <i class="fas fa-check-circle"></i> Confirm Payment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Global State
+        let cart = [];
+        let total = 0;
+        let currentUser = null;
+        let isUserSignedIn = false;
+
+        // Initialize App
+        function initApp() {
+            // Load saved data
+            const savedCart = localStorage.getItem(`cart_${currentUser?.sub || 'guest'}`);
+            const savedUser = localStorage.getItem('googleUser');
+            
+            if (savedCart) cart = JSON.parse(savedCart);
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                isUserSignedIn = true;
+                updateUIForUser();
+                updateCartDisplay();
+            }
+            
+            total = cart.reduce((sum, item) => sum + item.price, 0);
+        }
+
+        // Google Sign-In
+        window.onload = function() {
+            google.accounts.id.initialize({
+                client_id: "309730713942-os2b9e98ks10hua6o8rs93n6p55ehb0s.apps.googleusercontent.com",
+                callback: handleGoogleSignIn,
+                auto_select: false,
+                cancel_on_tap_outside: false,
+                context: 'signin'
+            });
+
+            google.accounts.id.renderButton(
+                document.getElementById("g_id_signin"),
+                {
+                    theme: "filled_black",
+                    size: "large",
+                    type: "standard",
+                    text: "signin_with",
+                    shape: "rectangular",
+                    logo_alignment: "left"
+                }
+            );
+
+            initApp();
+        };
+
+        function handleGoogleSignIn(response) {
+            try {
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                currentUser = {
+                    sub: payload.sub,
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture
+                };
+                
+                isUserSignedIn = true;
+                localStorage.setItem('googleUser', JSON.stringify(currentUser));
+                
+                updateUIForUser();
+                showNotification(`✅ Welcome ${currentUser.name}! Your cart is synced.`);
+                
+            } catch (error) {
+                console.error('Google Sign-In Error:', error);
+                showNotification('❌ Sign-in failed. Please try again.', 'error');
+            }
+        }
+
+        function updateUIForUser() {
+            if (isUserSignedIn && currentUser) {
+                document.getElementById('userProfile').style.display = 'flex';
+                document.getElementById('userAvatar').src = currentUser.picture;
+                document.getElementById('userName').textContent = currentUser.name.split(' ')[0];
+                document.getElementById('g_id_signin').style.display = 'none';
+                
+                const status = document.getElementById('userStatus');
+                status.style.display = 'block';
+                status.innerHTML = `
+                    <i class="fas fa-user-check" style="color: var(--primary-gold); margin-right: 0.5rem;"></i>
+                    Signed in as <strong style="color: var(--primary-gold);">${currentUser.name}</strong>
+                `;
+            }
+        }
+
+        // Cart Functions
+        function addToCart(name, price) {
+            if (!isUserSignedIn) {
+                showNotification('🔐 Please sign in with Google first!', 'error');
+                document.getElementById('g_id_signin').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            cart.push({ name, price, id: Date.now(), timestamp: new Date().toISOString() });
+            total += price;
+            
+            localStorage.setItem(`cart_${currentUser.sub}`, JSON.stringify(cart));
+            updateCartDisplay();
+            showNotification(`✅ ${name} added to your cart!`);
+        }
+
+        function updateCartDisplay() {
+            const countEl = document.getElementById('cartCount');
+            const itemsEl = document.getElementById('cartItems');
+            const totalEl = document.getElementById('cartTotal');
+            
+            countEl.textContent = cart.length;
+            
+            if (cart.length === 0) {
+                itemsEl.innerHTML = '<div style="text-align: center; opacity: 0.6; padding: 3rem 1rem;"><i class="fas fa-shopping-cart" style="font-size: 4rem; color: var(--primary-gold); margin-bottom: 1rem;"></i><p>Your Google Cart is empty</p></div>';
+                totalEl.textContent = 'Total: ₹0';
+                return;
+            }
+
+            itemsEl.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div style="flex: 1;">
+                        <div style="font-weight: 700; color: #fff; margin-bottom: 0.5rem;">${item.name}</div>
+                        <div style="color: var(--primary-gold); font-size: 1.2rem; font-weight: 700;">₹${item.price}</div>
+                    </div>
+                    <button onclick="removeFromCart(${index})" style="
+                        background: linear-gradient(135deg, #ff4757, #ff3838);
+                        color: white; border: none; padding: 1rem 1.5rem; 
+                        border-radius: 15px; cursor: pointer; font-weight: 700;
+                        transition: all 0.3s ease;
+                    " title="Remove item">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            totalEl.textContent = `Total: ₹${total}`;
+        }
+
+        function removeFromCart(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            localStorage.setItem(`cart_${currentUser.sub}`, JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        // Modal Functions
+        function openCart() {
+            if (!isUserSignedIn) {
+                showNotification('🔐 Sign in to view your cart!', 'error');
+                return;
+            }
+            document.getElementById('cartModal').style.display = 'flex';
+            updateCartDisplay();
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function showUpiModal() {
+            closeCart();
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=UPI://pay?pa=9892894639@paytm&pn=Peera's%20Premium%20Soaps&am=${total}&cu=INR`;
+            document.getElementById('upiQR').src = qrUrl;
+            document.getElementById('upiTotal').textContent = `₹${total}`;
+            document.getElementById('upiCustomer').textContent = currentUser.name;
+            document.getElementById('upiModal').style.display = 'flex';
+        }
+
+        function closeUpiModal() {
+            document.getElementById('upiModal').style.display = 'none';
+        }
+
+        // Payment Functions
+        function processGPay() {
+            if (total === 0) {
+                showNotification('Cart is empty!', 'error');
+                return;
+            }
+            showNotification('🟢 GPay processing... (Demo Mode)');
+            setTimeout(() => {
+                confirmPayment('GPay');
+            }, 1500);
+        }
+
+        function confirmPayment(method = 'UPI') {
+            const orderId = 'PEERA' + Date.now().toString().slice(-6);
+            showNotification(`✅ Payment successful via ${method}!\nOrder #${orderId}\nThank you ${currentUser.name}!`);
+            
+            // Clear cart
+            cart = [];
+            total = 0;
+            localStorage.setItem(`cart_${currentUser.sub}`, JSON.stringify(cart));
+            updateCartDisplay();
+            
+            closeCart();
+            closeUpiModal();
+        }
+
+        // Utilities
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${message}`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 50);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 400);
+            }, 4000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleUserMenu() {
+            showNotification('👤 User menu coming soon...');
+        }
+
+        // Event Listeners
+        window.onclick = (e) => {
+            if (e.target.id === 'cartModal') closeCart();
+            if (e.target.id === 'upiModal') closeUpiModal();
+        };
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector(anchor.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
